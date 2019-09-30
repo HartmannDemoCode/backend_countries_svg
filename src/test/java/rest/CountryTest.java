@@ -27,13 +27,13 @@ public class CountryTest {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
     //Read this line from a settings-file  since used several places
-    private static final String TEST_DB = "jdbc:mysql://localhost:3307/startcode_test";
+//    private static final String TEST_DB = "jdbc:mysql://localhost:3307/startcode_test";
 
-    private Facade facade = Facade.getFacadeExample(emf);
+    private final Facade facade = Facade.getFacadeExample(null);
     
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
-    private static EntityManagerFactory emf;
+    
 
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
@@ -42,12 +42,7 @@ public class CountryTest {
 
     @BeforeAll
     public static void setUpClass() {
-        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST, Strategy.CREATE);
-
-        //NOT Required if you use the version of EMF_Creator.createEntityManagerFactory used above        
-        //System.setProperty("IS_TEST", TEST_DB);
-        //We are using the database on the virtual Vagrant image, so username password are the same for all dev-databases
-        
+       
         httpServer = startServer();
         
         //Setup RestAssured
